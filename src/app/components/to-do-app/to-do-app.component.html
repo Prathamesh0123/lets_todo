@@ -1,0 +1,20 @@
+<div class="container">
+  <!-- Heading on top -->
+  <div class="text-center mt-4">
+    <h1 class="text-dark">To Do App</h1>
+    <hr>
+  </div>
+
+  <!-- Centered input and button -->
+  <div class="d-flex flex-column mt-5 align-items-center mb-3">
+    <div class="form-group w-50 p-3 rounded-4 w-auto mt-4" style="background-color: lightgrey;">
+      <h4><label for="title" class="form-label">Enter Title</label></h4>
+      <input type="text" name="title" class="form-control mb-3" [(ngModel)]="title" maxlength="15" minlength="6" required>
+      <h4><label for="task" class="form-label">Enter Todo</label></h4> 
+       <textarea name="textarea" class="form-control mb-3" rows="3" placeholder="e.g have to drink water..." style="resize: none;" [(ngModel)]="newTask"></textarea>
+      <button class="btn btn-primary w-100 custom-btn" (click)="addTask()">Add</button>
+    </div>
+  </div> 
+</div>
+
+
