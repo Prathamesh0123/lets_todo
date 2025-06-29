@@ -1,0 +1,32 @@
+<div class="d-flex flex-column justify-content-center align-items-center min-vh-100 m-2">
+    <form class="form bg-dark text-light rounded-4" [formGroup]="formData" (ngSubmit)="submitForm(formData)">
+        <div class="controls">
+            <h1 class="fw-bold signUp" [ngClass]="{'activeTab' : !isSignup}" (click)="signUp()">Sign Up</h1>
+            <h1 class="fw-bold logIn" [ngClass]="{'activeTab' : isSignup}" (click)="logIn()">Log In</h1>
+        </div>
+        <hr class="mb-4">
+        <label>Name</label>    
+        <input class="form-control mb-2" type="text" formControlName="name">
+        <div *ngIf="formData.get('name')?.invalid && formData.get('name')?.touched">
+            <small *ngIf="formData.get('name')?.errors?.['required']" class="text-danger">Name is required</small>
+        </div>
+        <label>Email</label>
+        <input class="form-control mb-2" type="email" formControlName="email">
+        <div *ngIf="formData.get('email')?.invalid && formData.get('email')?.touched">
+            <small *ngIf="formData.get('email')?.errors?.['required']" class="text-danger">Email is required</small>
+            <small *ngIf="formData.get('email')?.errors?.['email']" class="text-danger">Invalid email</small>
+        </div>
+        <label>Password</label>
+        <input class="form-control mb-2" type="password" formControlName="password" maxlength="7">
+        <div *ngIf="formData.get('password')?.invalid && formData.get('password')?.touched">
+            <small *ngIf="formData.get('password')?.errors?.['required']" class="text-danger">Password required</small>
+            <small *ngIf="formData.get('password')?.errors?.['minlength']" class="text-danger">Minimum 7 characters</small>
+        </div>
+        <label>Conform Passowrd</label>
+        <input class="form-control mb-2" type="password" formControlName="confirmPassword" maxlength="7">
+        <div *ngIf="formData.hasError('passwordMissMatch') && formData.get('confirmPassword')?.touched">
+            <small class="text-danger">Password do not match</small>
+        </div>
+        <button class="btn btn-primary w-100 mt-5" [disabled]="!formData.valid">Sign Up</button>
+    </form>
+</div>

@@ -1,0 +1,14 @@
+<div class="d-flex flex-column justify-content-center align-items-center min-vh-100 m-2">
+    <form class="form bg-dark text-light rounded-4">
+        <div class="controls">
+            <h1 class="fw-bold signUp" [ngClass]="{'activeTab' : isLogin}" (click)="signUp()">Sign Up</h1>
+            <h1 class="fw-bold logIn" [ngClass]="{'activeTab' : !isLogin}">Log In</h1>
+        </div>
+        <hr class="mb-4">
+        <label>Email</label>
+        <input class="form-control mb-2" type="email" name="email"  [(ngModel)]="user.email">
+        <label>Password</label>
+        <input class="form-control mb-5" type="password" name="password"  maxlength="7" [(ngModel)]="user.password">
+        <button class="btn btn-primary w-100" (click)="logIn()">Log In</button>
+    </form>
+</div>

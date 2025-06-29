@@ -1,21 +1,36 @@
+<app-navbar></app-navbar>
+
+<!-- <div *ngFor="let task of tasks">
+  <h1>title {{task.title}}</h1>
+  <h4>task {{task.task}}</h4>
+</div> -->
+
+
 <div class="container mt-5">
-<div>
-<h1 class="mb-3 text-center mt-5 mb-5" *ngIf="tasks.length != 0">Here Are Task</h1>
+
+<h1 class="mb-3 text-center mt-5 mb-5" *ngIf="!showLoading && tasks && tasks.length != 0">Here Are Task</h1>
+<div class="filter">
+  <select name="filter" id="filter" [(ngModel)]="filter" (change)="onFilterChange($event)">
+      <option value="all">All</option>
+      <option value="pending">Pending</option>
+      <option value="completed">Completed</option>
+  </select>
+</div>
 <div class="row justify-content-center">
-  <div class="w-auto p-3 rounded-4 mb-3 col-md-3 col-12 col-lg-4 me-3 shadow" style="background-color: lightgray;" *ngFor="let task of tasks;let index = index">
+  <div class="w-auto p-3 rounded-4 mb-3 col-md-3 col-12 col-lg-4 me-3 shadow" style="background-color: lightgray;" *ngFor="let task of tasks;let index = index"> 
 <!-- edit mode  -->
 
-  <ng-container *ngIf="editingTaskId == task.id;else viewMode">
-      <input type="text" class="form-control mb-2" [(ngModel)]="editingTitle">
-      <!-- <input type="text" class="form-control mb-2" [(ngModel)]="editingTask"> -->
-       <textarea class="form-control mb-3" [(ngModel)]="editingTask" rows="4"></textarea>
-      <button class="btn btn-danger me-3" (click)="updateTask(task.id)">Update</button>
+  <ng-container *ngIf="editingTaskId == task._id;else viewMode">
+      <input type="text" class="form-control mb-2" [(ngModel)]="editingTitle"> 
+      <textarea class="form-control mb-3" [(ngModel)]="editingTask" rows="4"></textarea>
+      <button class="btn btn-danger me-3" (click)="updateTask()">Update</button>
       
-  </ng-container>
+  </ng-container> 
   <!-- view mode -->
   <ng-template #viewMode>
-      <!-- <div class="container" *ngIf="isTaskAdded"> -->
-            <!-- <div class="w-auto p-3 rounded-4  mb-3" style="background-color: lightgray;" *ngFor="let task of tasks;let index = index;"> -->
+   
+      <div class="container">
+            <div class="w-auto p-3 rounded-4  mb-3" style="background-color: lightgray;">
               <h2 class="mb-3 fw-bold" [ngStyle]="task.completed ? {'text-decoration':'line-through'}: {}">
                 {{task.title}}
               </h2>
@@ -26,20 +41,32 @@
               [ngStyle]="task.completed ? {'text-decoration': 'line-through'} : {}"
               [value]="task.task" readonly style="resize: none;">
             </textarea>
-              <button class="btn btn-danger me-3" (click)="done(task.id)">Done</button>
+              <button class="btn btn-danger me-3" (click)="done(task._id)">Done</button>
               <button class="btn btn-secondary text-light" (click)="edit(task)" *ngIf="!task.completed">Edit</button>
-              <button class="btn btn-danger" (click)="deleteTodo(task.id)" *ngIf="task.completed">delete todo</button>
-            <!-- </div> -->
+              <button class="btn btn-danger" (click)="deleteTodo(task._id)" *ngIf="task.completed">delete todo</button> 
+           </div>
+     </div> 
     <!-- </div> -->
-  </ng-template>
-  <div>
-</div>
+   </ng-template>
+</div> 
 
 </div>
 </div>
 
-<div class="container d-flex justify-content-center align-items-center" style="height: 60vh;" *ngIf="tasks.length == 0">
-  <h1 class="fw-bold">No todo is added plz add the todo</h1>
+<!-- Loading overlay -->
+<div *ngIf="showLoading" class="loading-overlay">
+  <div class="loader"></div>
 </div>
 
+<div *ngIf="!showLoading && tasks && tasks.length == 0" class="text-center fw-bold fs-4 mb-4">
+  <ng-container [ngSwitch]="filter">
+    <span *ngSwitchCase="'all'">No todos added yet.</span>
+    <span *ngSwitchCase="'pending'">No pending todos</span>
+    <span *ngSwitchCase="'completed'">No completed todos.</span>
+    <span *ngSwitchDefault>No todos found.</span>
+  </ng-container>
+</div>
+
+
+      
 

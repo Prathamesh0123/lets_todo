@@ -1,0 +1,29 @@
+label{
+    font-size: 25px;
+    min-width: 350px
+}
+.form{
+    padding: 37px 69px;
+}
+
+.controls{
+    display: flex;
+    justify-content: center;
+}
+
+.controls h1{
+    border: 2px solid wheat;
+    margin: 12px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.controls h1:hover{
+     background-color:  #0d6efd;
+}
+
+
+.activeTab{
+    background-color:  #0d6efd;
+}

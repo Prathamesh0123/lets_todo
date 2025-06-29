@@ -15,6 +15,6 @@ app.use('/api',logunSignUpRouter);
 app.use('/api',todoRoutes);
 connectDB().then(()=>{
     app.listen(port,()=>{
-        console.log(`server is runnig on port ${port}`);
+        console.log(`server is runnig on port ${port}`)
     });
 });

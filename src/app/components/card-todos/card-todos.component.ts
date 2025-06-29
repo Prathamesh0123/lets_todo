@@ -1,78 +1,122 @@
 import { Component } from '@angular/core';
 import { TodoServiceService } from 'src/app/service/todo-service.service';
 import { Task } from 'src/app/models/task';
+import { take } from 'rxjs';
+interface todo {
+  _id:number,
+  title:string,
+  task:string,
+  completed?:boolean
+}
 @Component({
   selector: 'app-card-todos',
   templateUrl: './card-todos.component.html',
   styleUrls: ['./card-todos.component.css']
 })
+
 export class CardTodosComponent {
    constructor(private taskService:TodoServiceService){}
-    tasks:Task[] = [];
-  
+    tasks:todo[] = [];
+    showLoading:boolean = false;
+    completed:boolean = false;
+    filter:string = 'all';
     ngOnInit(): void {
-      this.tasks = this.getData();
+      this.loadTasks();
     }
   
     editingTaskId:number | null = null;
     editingTitle!:string;
     editingTask!:string;
   
-    getData():Task[]{
-      return this.taskService.getTask();
-    }
+ 
     
-  
-  done(taskId: number) {
-    const task = this.tasks.find(t => t.id === taskId);
-    if (task) {
-      task.completed = true;
+  loadTasks(): void {
+  this.showLoading = true;
+  this.taskService.getTodo(this.filter).subscribe({
+    next: (res) => {
+      this.tasks = res.todos;
+      this.showLoading = false;
+    },
+    error: (err) => {
+      console.log('no todos', err);
     }
+  });
+}
+
+onFilterChange(event:Event){
+  const target = event.target as HTMLSelectElement;
+  this.filter = target.value;
+  this.loadTasks();
+}
+
+
+  done(taskId: number){
+
+    const selectedTask = this.tasks.find((t)=>{
+      return t._id == taskId;
+    })
+
+    if(selectedTask && !selectedTask.completed){
+        this.taskService.done(taskId).subscribe({
+        next:(res)=>{
+          console.log(res);
+          setTimeout(() => {
+            this.ngOnInit();
+          }, 1000);
+        },
+        error:(err)=>{
+          console.log(err.message);
+        }
+      })
+    }
+ 
   }
   
-  
-    edit(taskObj:Task){
-      this.editingTaskId = taskObj.id;
+    edit(taskObj:any){
+      this.editingTaskId = taskObj._id;
       this.editingTitle = taskObj.title;
       this.editingTask = taskObj.task;
     }
   
-  updateTask(taskId: number) {
-    //this will return object / reference same reference of orignal tasks so 
-    //any chnages is in task would like chnages in orignal there is no seperate copy 
-    //unless we manually do that...
-    // const task = this.tasks.find(t => t.id === taskId);
-    // if (task) {
-    //   task.title = this.editingTitle;
-    //   task.task = this.editingTask;
-    //   this.editingTaskId = null;
-    // }
-    const updateTask = {
-      id:taskId,
-      title:this.editingTitle,
-      task:this.editingTask,
-      completed:false
+  updateTask() {
+    const data = {
+      taskId : this.editingTaskId,
+      title : this.editingTitle,
+      task : this.editingTask
     }
-    
-    let isTaskAlreadyExist = this.tasks.some((t)=>{
-      return t.title == updateTask.title && t.id != taskId;
+    const todoExist = this.tasks.find((t)=>{
+      return t.title == data.title && t._id != data.taskId;
     });
-  
-    if(isTaskAlreadyExist){
-      alert('The task alredy exist!!!');
+
+    if(todoExist){
+      alert('todo alredy exist!!!');
       return;
     }
-  
-    this.taskService.updateTask(updateTask);
-    this.editingTaskId = null;
-    this.tasks = this.getData();
+
+
+    this.taskService.updateTodo(data).subscribe({
+      next:()=>{
+        alert('Todo Updated!!!');
+        this.editingTaskId = null;
+        this.ngOnInit();
+      },
+      error:(err)=>{
+        alert(err.error.message);
+      }
+    })
   }
   
   deleteTodo(taskId:number){
-    this.taskService.deleteTodo(taskId);
-    // this.tasks = this.taskService.getTask();
-    this.tasks = this.getData();
-    alert('todo deleted!!!');  
+    console.log(taskId);
+    this.taskService.deleteTodo(taskId).subscribe({
+      next:(res:any)=>{
+        alert(res.message);
+        this.loadTasks();
+      },
+      error:(err)=>{
+        alert(err.error.message);
+      }
+    });
   }
 
 }
