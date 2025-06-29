@@ -6,7 +6,7 @@ const todoRoutes = require('./routes/todo');
 const {connectDB} = require('./db');
 
 const app = express(); // the express is returing a object alredy we just store in variable and good to use 
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.use(cors());
 
 
