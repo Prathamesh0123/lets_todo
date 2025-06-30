@@ -4,6 +4,9 @@ const {getDB} = require('../db');
 const jwt = require('jsonwebtoken');
 const key = process.env.SECRET_KEY;
 
+router.get('/',(req,res)=>{
+    res.send('serevr is workin');
+})
 router.post('/signup',async(req,res)=>{
     const database = getDB();
     const {name,email,password} = req.body;
