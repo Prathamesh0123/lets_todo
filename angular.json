@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "baseHref": "/todoApp/",
+            "baseHref": "/lets_todo/",
             "outputPath": "dist/tod-list",
             "index": "src/index.html",
             "main": "src/main.ts",
