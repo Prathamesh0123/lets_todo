@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {getDB} = require('../db');
 const jwt = require('jsonwebtoken');
+const key = process.env.SECRET_KEY;
 
 router.post('/signup',async(req,res)=>{
     const database = getDB();
@@ -40,7 +41,7 @@ router.post('/signin',async(req,res)=>{
     if(user.password != password){
         return res.status(404).json({message:'Invalid password'});
     }
-    const token = jwt.sign({userId:user._id,email:user.email},'user_token',{expiresIn:'24h'});
+    const token = jwt.sign({userId:user._id,email:user.email},key,{expiresIn:'24h'});
     res.status(200).json({
         token:token,
         message:'user loged in from server!!!',

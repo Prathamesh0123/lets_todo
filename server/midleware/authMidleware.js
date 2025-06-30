@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { ObjectId } = require('mongodb'); // ⬅️ Import ObjectId
+const key = process.env.SECRET_KEY;
 
 function verfiyToken(req,res,next){
     const authHeader = req.headers['authorization'];
@@ -19,7 +20,7 @@ function verfiyToken(req,res,next){
     
     try{
         // const key = 'user_token'
-        const decode = jwt.verify(token,'user_token');
+        const decode = jwt.verify(token,key);
         if(decode.userId){
             decode.userId = new ObjectId(decode.userId);
         }

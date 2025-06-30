@@ -4,7 +4,7 @@ const {getDB} = require('../db');
 
 const verfiyToken = require('../midleware/authMidleware');
 const { ObjectId } = require('mongodb');
-
+const key = process.env.SECRET_KEY;
 //to check is token valid or not during login 
 router.post('/home',verfiyToken,async(req,res)=>{   
     res.status(200).json({message:'welcome'});

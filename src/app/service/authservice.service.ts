@@ -16,7 +16,7 @@ export class AuthserviceService {
     })
     console.log(headers);
     
-    return this.http.post('https://todo-app-nine-eta-69.vercel.app/api/home',{},{headers}).pipe(
+    return this.http.post('http://localhost:3000/api/home',{},{headers}).pipe(
       map(()=>{
         return true;
       }),
@@ -35,7 +35,7 @@ export class AuthserviceService {
       password:userData.value.password
     }
 
-    return this.http.post('https://todo-app-nine-eta-69.vercel.app/api/signup',data).pipe(
+    return this.http.post('http://localhost:3000/api/signup',data).pipe(
       map((res:any)=>{
         console.log('data send to the back end success!!!',res);
         return true;
@@ -53,7 +53,7 @@ export class AuthserviceService {
       password:userData.password,
     }
 
-    return this.http.post('https://todo-app-nine-eta-69.vercel.app/api/signin',data).pipe(
+    return this.http.post('http://localhost:3000/api/signin',data).pipe(
       map((res:any)=>{
         console.log('user logged in from UI ',res);
         localStorage.setItem('token',res.token);

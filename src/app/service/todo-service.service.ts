@@ -21,7 +21,7 @@ export class TodoServiceService {
         'Authorization':`Bearer ${token}`
       });
     
-    return this.http.post('https://todo-app-nine-eta-69.vercel.app/api/addtodo',task,{headers}).pipe(
+    return this.http.post('http://localhost:3000/api/addtodo',task,{headers}).pipe(
       map((res:any)=>{
         alert(res.message);
         console.log(res.message);
@@ -43,7 +43,7 @@ export class TodoServiceService {
     const headers = new HttpHeaders({
       'Authorization':`Bearer ${token}`
     })
-    return this.http.get('https://todo-app-nine-eta-69.vercel.app/api/todos',{params,headers}).pipe(
+    return this.http.get('http://localhost:3000/api/todos',{params,headers}).pipe(
       map((res)=>{
         return res;
       }),
@@ -62,7 +62,7 @@ export class TodoServiceService {
       'Content-Type':'application/json'
     });
     return this.http.put(
-      `https://todo-app-nine-eta-69.vercel.app/api/todos/${todo.taskId}`,{
+      `http://localhost:3000/api/todos/${todo.taskId}`,{
         title:todo.title,
         task:todo.task
       },
@@ -77,7 +77,7 @@ export class TodoServiceService {
       'Content-Type':'application/json'
     });
     return this.http.put(
-      `https://todo-app-nine-eta-69.vercel.app/api/todos/${taskId}`,
+      `http://localhost:3000/api/todos/${taskId}`,
       {
         completed:true
       },
@@ -91,7 +91,7 @@ export class TodoServiceService {
       'Authorization':`Bearer ${token}`
     });
 
-    return this.http.delete(`https://todo-app-nine-eta-69.vercel.app/api/todo/${taskId}`,{headers});
+    return this.http.delete(`http://localhost:3000/api/todo/${taskId}`,{headers});
   }
 }
   
