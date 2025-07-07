@@ -7,7 +7,9 @@ const {connectDB} = require('./db');
 
 const app = express(); // the express is returing a object alredy we just store in variable and good to use 
 const port = process.env.PORT || 3000;
-app.use(cors());
+app.use(cors({
+    origin:'https://prathamesh0123.github.io'
+}));
 
 
 
